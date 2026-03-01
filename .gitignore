@@ -1,0 +1,12 @@
+# 1. Ignoruj plik ze zmiennymi środowiskowymi (Twoje tajne hasła do bazy danych)
+.env
+
+# 2. Ignoruj ukryty folder konfiguracyjny edytora Visual Studio Code
+.vscode/
+
+# 3. Ignoruj pliki systemowe (tworzone automatycznie przez Windows/macOS)
+.DS_Store
+Thumbs.db
+
+# 4. Jeśli w przyszłości w folderze docker/db zrobisz podfolder na fizyczne dane bazy (tzw. wolumeny), odblokuj poniższą linijkę, aby nie wrzucać bazy na Git:
+# docker/db/data/
