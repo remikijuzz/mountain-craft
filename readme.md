@@ -171,7 +171,7 @@ Konfiguracja środowiska:
 
 ---
 
-# 4. Scenariusz testowy (dla prowadzącego)
+# 4. Scenariusz testowy
 
 ## Rejestracja i walidacja
 
@@ -295,15 +295,15 @@ agreguje dane pochodzące z wielu tabel.
 
 ## Diagram ERD
 
-```markdown
+
 [Diagram ERD bazy danych](./public/img/erd.png)
-```
+
 
 ---
 
 ## Diagram architektury warstwowej (MVC)
 
-```markdown
+
 [Architektura MVC](./public/img/mvc.png)
-```
+
 
