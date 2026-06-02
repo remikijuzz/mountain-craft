@@ -31,6 +31,7 @@ Routing::post('login', 'SecurityController', 'login');
 Routing::get('register', 'SecurityController', 'register');
 Routing::post('register', 'SecurityController', 'register');
 Routing::post('search', 'ProductController', 'search');
+Routing::get('dashboard', 'ProductController', 'dashboard');
 
 // 5. Odpalamy dopasowanie ścieżki
 Routing::run($path);
