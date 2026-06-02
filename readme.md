@@ -307,27 +307,3 @@ agreguje dane pochodzące z wielu tabel.
 [Architektura MVC](./public/img/mvc.png)
 ```
 
----
-
-# Ostatni krok przed obroną
-
-W dokumentacji pozostawiono placeholdery przeznaczone do wstawienia:
-
-- diagramu ERD,
-- diagramu architektury,
-- zrzutów ekranu aplikacji.
-
-Przed oddaniem projektu należy podmienić pliki placeholderów na rzeczywiste grafiki wygenerowane np. przy pomocy:
-
-- DBeaver
-- draw.io
-- Lucidchart
-- dbdiagram.io
-
-Przykład:
-
-```markdown
-![Diagram ERD bazy danych](./public/img/erd.png)
-```
-
-Dzięki temu dokumentacja będzie kompletna i zgodna z wymaganiami projektu.
