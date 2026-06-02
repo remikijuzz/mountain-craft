@@ -30,6 +30,7 @@ Routing::post('search', 'ProductController', 'search');
 Routing::get('dashboard', 'ProductController', 'dashboard');
 // Strona główna po wejściu na aplikację
 Routing::get('', 'DefaultController', 'index');
-
+// Trasa do wyświetlenia dostępnych makiet
+Routing::get('kolekcja', 'ProductController', 'kolekcja');
 // 5. Odpalamy dopasowanie ścieżki
 Routing::run($path);

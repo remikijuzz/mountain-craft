@@ -18,4 +18,10 @@ class ProductController extends AppController {
         $products = $this->productRepository->getProducts();
         $this->render('dashboard', ['products' => $products]);
     }
+
+    public function kolekcja() {
+        // Ta strona jest publiczna (brak $this->requireLogin())
+        $products = $this->productRepository->getProducts();
+        $this->render('kolekcja', ['products' => $products]);
+    }
 }
