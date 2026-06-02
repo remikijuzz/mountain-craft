@@ -5,14 +5,14 @@ ENV RUN_DEPS \
     libzip \
     libpng \
     libjpeg-turbo \
-    postgresql-libs
+    libpq
 
 ENV BUILD_DEPS \
     zlib-dev \
     libzip-dev \
     libpng-dev \
     libjpeg-turbo-dev \
-    postgresql-dev
+    libpq-dev
 
 ENV PHP_EXTENSIONS \
     opcache \
@@ -22,12 +22,9 @@ ENV PHP_EXTENSIONS \
     pgsql \
     pdo_pgsql
 
-RUN apk add --no-cache --virtual .build-deps $BUILD_DEPS \
+RUN apk update && apk add --no-cache $BUILD_DEPS $RUN_DEPS \
     && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install -j "$(nproc)" $PHP_EXTENSIONS \
-    && apk del .build-deps
-
-RUN apk add --no-cache --virtual .run-deps $RUN_DEPS
+    && docker-php-ext-install -j "$(nproc)" $PHP_EXTENSIONS
 
 RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 
