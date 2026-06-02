@@ -8,14 +8,19 @@ class SecurityController extends AppController {
     private $userRepository;
 
     public function __construct() {
-        // Security Bingo (D1): Używamy Singletona, nie tworzymy nowych instancji bez sensu
         $this->userRepository = UserRepository::getInstance();
     }
 
     #[AllowedMethods(['GET', 'POST'])]
     public function login() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
         if (!$this->isPost()) {
-            return $this->render('login');
+            // Przechwytujemy komunikat o sukcesie (np. po rejestracji)
+            $success = $_SESSION['success_message'] ?? null;
+            unset($_SESSION['success_message']); // Od razu usuwamy, żeby wyświetlił się tylko raz
+            
+            return $this->render('login', ['success' => $success]);
         }
 
         $email = $_POST["email"] ?? '';
@@ -27,16 +32,10 @@ class SecurityController extends AppController {
 
         $user = $this->userRepository->getUserByEmail($email);
 
-        // Security Bingo (B1): Generyczny komunikat, aby nie zdradzać czy email istnieje
         if (!$user || !password_verify($password, $user['password'])) {
             return $this->render('login', ['messages' => ['Nieprawidłowy email lub hasło']]);
         }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
         
-        // Security Bingo (B3): Regeneracja ID sesji zaraz po logowaniu (ochrona przed Session Fixation)
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user['id'];
@@ -44,7 +43,7 @@ class SecurityController extends AppController {
         $_SESSION['role_id'] = $user['role_id'];
 
         $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/dashboard"); // Tymczasowo, potem zmienimy na stronę sklepu
+        header("Location: {$url}/kolekcja"); // Po zalogowaniu wracamy do sklepu
         exit();
     }
 
@@ -62,19 +61,20 @@ class SecurityController extends AppController {
             return $this->render('register', ['messages' => ['Wypełnij wszystkie pola']]);
         }
 
-        // Security Bingo (C1): Walidacja formatu email po stronie serwera
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->render('register', ['messages' => ['Nieprawidłowy format email']]);
         }
 
-        // Security Bingo (C4): Jeśli email istnieje, dajemy mylący komunikat przeciwko enumeracji
         if ($this->userRepository->getUserByEmail($email)) {
-            return $this->render('register', ['messages' => ['Jeśli w systemie istnieje konto z tym adresem, wysłaliśmy instrukcje na email.']]);
+            return $this->render('register', ['messages' => ['Konto z tym adresem już istnieje.']]);
         }
 
-        // Security Bingo (E2): Bezpieczne haszowanie haseł algorytmem BCRYPT
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $this->userRepository->createUser($email, $hashedPassword, $username);
+
+        // Zapisujemy komunikat o sukcesie w sesji
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $_SESSION['success_message'] = "Konto zostało pomyślnie utworzone. Proszę się zalogować!";
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
@@ -83,28 +83,9 @@ class SecurityController extends AppController {
 
     #[AllowedMethods(['GET'])]
     public function logout() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Security Bingo (D5): Poprawne niszczenie sesji i ciasteczka
+        if (session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION = [];
-
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
-            );
-        }
-
         session_destroy();
-
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
         exit();

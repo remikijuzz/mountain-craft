@@ -20,7 +20,6 @@ class CartController extends AppController {
         $cartProducts = [];
         $total = 0;
 
-        // Szukamy produktów, które użytkownik wrzucił do koszyka
         foreach ($cartIds as $id) {
             foreach ($allProducts as $product) {
                 if ($product->getId() == $id) {
@@ -44,15 +43,18 @@ class CartController extends AppController {
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
-            $_SESSION['cart'][] = $productId; // Dodajemy ID do koszyka
+            $_SESSION['cart'][] = $productId;
+            
+            // Komunikat o dodaniu do koszyka
+            $_SESSION['cart_message'] = "Dodano do koszyka!";
         }
+        // Wracamy na stronę sklepu, zamiast do koszyka
         $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/cart");
+        header("Location: {$url}/kolekcja");
         exit();
     }
 
     public function checkout() {
-        // Symulacja zakupu - po prostu czyścimy koszyk i pokazujemy sukces
         unset($_SESSION['cart']);
         $this->render('checkout_success');
     }
