@@ -1,5 +1,19 @@
 <?php
 
+// Security Bingo (C3, E3): Zabezpieczenie ciasteczek sesyjnych przed XSS i CSRF
+session_set_cookie_params([
+    'lifetime' => 3600,
+    'path' => '/',
+    'domain' => $_SERVER['HTTP_HOST'],
+    'secure' => false, // Zmienimy na true, jeśli włączysz HTTPS pod koniec projektu
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // 1. Zgodnie z instrukcją uruchamiamy sesję na samym początku życia aplikacji
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
