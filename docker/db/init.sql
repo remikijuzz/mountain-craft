@@ -91,3 +91,11 @@ SELECT oi.order_id, p.name AS mountain_name, oi.quantity, oi.price_at_purchase, 
 FROM order_items oi
 JOIN products p ON oi.product_id = p.id;
 
+-- ==========================================
+-- DANE POCZĄTKOWE (SEEDING) DO SKLEPU
+-- ==========================================
+INSERT INTO products (name, description, price, scale, image_url) VALUES 
+('Tatry Wysokie PL', 'Najbardziej morderczy fragment całego pasma. 24 km2 nagiej skały wyrzeźbionej przez lodowce.', 1450.00, '1:50000', 'https://images.unsplash.com/photo-1628772689123-4d0fa27b0dd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'),
+('Tatry Zachodnie PL', 'Łagodniejsze, ale rozległe szczyty idealne do kontemplacji. Zamknij swój pierścień pasma.', 1250.00, '1:50000', 'https://images.unsplash.com/photo-1707126186331-2d70ab33d3ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'),
+('Tatry Wysokie SK', 'Słowacka, wyższa część majestatycznych Tatr. Odkryj brakujące fragmenty mapy.', 1600.00, '1:50000', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80'),
+('Tatry Zachodnie SK', 'Dopełnienie kolekcji. Surowy polimer i neodymowe złącza czekają.', 1300.00, '1:50000', 'https://images.unsplash.com/photo-1765137138067-89abe3f4ba71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080');

@@ -21,20 +21,22 @@ require_once 'src/Routing.php';
 // 3. Pobieramy aktualną ścieżkę z adresu URL (np. "login" z localhost:8080/login)
 $path = trim($_SERVER['REQUEST_URI'], '/');
 
-// 4. Definiujemy trasy (będziemy je uzupełniać w kolejnych dniach)
+// 1. Zawsze dostępne (Publiczne)
+Routing::get('', 'DefaultController', 'index');               // Strona Główna (Home)
+Routing::get('kolekcja', 'ProductController', 'kolekcja');    // Sklep z produktami
+Routing::get('cart', 'CartController', 'viewCart');           // Koszyk
+Routing::post('cart/add', 'CartController', 'add');           // Dodawanie do koszyka
+Routing::post('checkout', 'CartController', 'checkout');      // Symulacja płatności
+
+// 2. Autoryzacja (Publiczne)
 Routing::get('login', 'SecurityController', 'login');
 Routing::post('login', 'SecurityController', 'login');
 Routing::get('register', 'SecurityController', 'register');
 Routing::post('register', 'SecurityController', 'register');
-Routing::post('search', 'ProductController', 'search');
-Routing::get('dashboard', 'ProductController', 'dashboard');
-// Strona główna po wejściu na aplikację
-Routing::get('', 'DefaultController', 'index');
-// Trasa do wyświetlenia dostępnych makiet
-Routing::get('kolekcja', 'ProductController', 'kolekcja');
-// 5. Odpalamy dopasowanie ścieżki
-// Trasy koszyka i zakupów
-Routing::get('cart', 'CartController', 'viewCart');
-Routing::post('cart/add', 'CartController', 'add');
-Routing::post('checkout', 'CartController', 'checkout');
+Routing::get('logout', 'SecurityController', 'logout');
+
+// 3. Strefa Zamknięta (Wymaga Logowania)
+Routing::get('dashboard', 'ProductController', 'dashboard');  // Historia / Dziennik
+
+// 4. Odpalamy dopasowanie ścieżki i ładujemy widok!
 Routing::run($path);

@@ -10,10 +10,21 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="container">
-            <div class="logo"><a href="/" style="color:white; text-decoration:none;">MOUNTAINCRAFT</a></div>
-        </div>
-    </header>
+    <div class="container">
+        <div class="logo"><a href="/" style="color:white; text-decoration:none;">MOUNTAINCRAFT</a></div>
+        <ul class="nav-links">
+            <li><a href="/kolekcja">Sklep (Kolekcja)</a></li>
+            <li><a href="/cart">Koszyk</a></li>
+            
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li><a href="/dashboard">Twój Dziennik</a></li>
+                <li><a href="/logout" style="color: var(--color-cta);">Wyloguj się</a></li>
+            <?php else: ?>
+                <li><a href="/login" style="color: var(--color-cta);">Zaloguj się</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</header>
 
     <section class="section">
         <div class="container" style="max-width: 600px; background: rgba(17,17,17,0.9); padding: 2rem; border: 1px solid #333;">

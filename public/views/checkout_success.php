@@ -5,6 +5,7 @@
     <title>Sukces</title>
     <link rel="stylesheet" href="/public/css/mountaincraft.css">
 </head>
+
 <body style="display: flex; align-items: center; justify-content: center; height: 100vh; background: #0a0a0a;">
     <div style="text-align: center; color: white;">
         <h1 style="color: #c49a6c; font-family: 'Cinzel';">ZAMÓWIENIE PRZYJĘTE</h1>

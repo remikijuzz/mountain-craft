@@ -19,21 +19,22 @@
     </style>
 </head>
 <body>
-    <header class="site-header" style="position: fixed; width: 100%; z-index: 100; background: rgba(10,10,10,0.9);">
-        <div class="container">
-            <div class="logo">MOUNTAINCRAFT</div>
-            <ul class="nav-links">
-                <li><a href="/kolekcja">Kolekcja</a></li>
-                <li><a href="/dashboard">Dziennik</a></li>
-                <?php if(isset($_SESSION['user_id'])): ?>
-                    <li><a href="/logout" style="color: #c49a6c;">Wyloguj</a></li>
-                <?php else: ?>
-                    <li><a href="/login">Logowanie</a></li>
-                <?php endif; ?>
-                <li><a href="/cart">Koszyk</a></li>
-            </ul>
-        </div>
-    </header>
+    <header class="site-header">
+    <div class="container">
+        <div class="logo"><a href="/" style="color:white; text-decoration:none;">MOUNTAINCRAFT</a></div>
+        <ul class="nav-links">
+            <li><a href="/kolekcja">Sklep (Kolekcja)</a></li>
+            <li><a href="/cart">Koszyk</a></li>
+            
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li><a href="/dashboard">Twój Dziennik</a></li>
+                <li><a href="/logout" style="color: var(--color-cta);">Wyloguj się</a></li>
+            <?php else: ?>
+                <li><a href="/login" style="color: var(--color-cta);">Zaloguj się</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</header>
 
     <div class="hero-section">
         <div class="hero-content">
