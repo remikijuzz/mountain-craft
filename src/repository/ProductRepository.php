@@ -45,4 +45,23 @@ class ProductRepository {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Aktualizacja ceny z wykorzystaniem TRANSAKCJI PDO
+    public function updateProductPrice(int $id, float $newPrice) {
+        $conn = $this->database->connect();
+        
+        try {
+            $conn->beginTransaction(); // Start transakcji
+
+            $stmt = $conn->prepare('UPDATE products SET price = :price WHERE id = :id');
+            $stmt->bindParam(':price', $newPrice, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $conn->commit(); // Zatwierdzenie transakcji
+        } catch (Exception $e) {
+            $conn->rollBack(); // Wycofanie zmian w razie błędu
+            throw new Exception("Błąd podczas aktualizacji produktu: " . $e->getMessage());
+        }
+    }
 }

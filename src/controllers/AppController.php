@@ -38,4 +38,14 @@ class AppController {
             exit();
         }
     }
+
+    // Strażnik dostępu dla ról administracyjnych
+    protected function requireAdmin() {
+        $this->requireLogin(); // Najpierw sprawdzamy, czy w ogóle zalogowany
+        // Zakładamy, że w bazie role_id = 2 to Administrator
+        if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 2) {
+            http_response_code(403);
+            throw new Exception("Błąd 403: Brak uprawnień. Dostęp tylko dla administratora.", 403);
+        }
+    }
 }

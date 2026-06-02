@@ -15,6 +15,16 @@ class SecurityController extends AppController {
     public function login() {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
+        // --- LIMIT PRÓB LOGOWANIA (Security Bingo A4) ---
+        if (!isset($_SESSION['login_attempts'])) {
+            $_SESSION['login_attempts'] = 0;
+        }
+        if ($_SESSION['login_attempts'] >= 5) {
+            sleep(2); // Spowalnia atak brute-force
+            return $this->render('login', ['messages' => ['Zbyt wiele nieudanych prób. Spróbuj za chwilę.']]);
+        }
+        // ------------------------------------------------
+
         if (!$this->isPost()) {
             // Przechwytujemy komunikat o sukcesie (np. po rejestracji)
             $success = $_SESSION['success_message'] ?? null;
@@ -33,9 +43,11 @@ class SecurityController extends AppController {
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user || !password_verify($password, $user['password'])) {
+            $_SESSION['login_attempts']++; // Inkrementacja licznika przy błędzie
             return $this->render('login', ['messages' => ['Nieprawidłowy email lub hasło']]);
         }
         
+        $_SESSION['login_attempts'] = 0; // Wyzerowanie licznika po udanym zalogowaniu
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user['id'];
