@@ -33,4 +33,8 @@ Routing::get('', 'DefaultController', 'index');
 // Trasa do wyświetlenia dostępnych makiet
 Routing::get('kolekcja', 'ProductController', 'kolekcja');
 // 5. Odpalamy dopasowanie ścieżki
+// Trasy koszyka i zakupów
+Routing::get('cart', 'CartController', 'viewCart');
+Routing::post('cart/add', 'CartController', 'add');
+Routing::post('checkout', 'CartController', 'checkout');
 Routing::run($path);
